@@ -1,49 +1,41 @@
-using Assets.Scripts.Game;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.GameMenu;
 using UnityEngine;
 
-public class PlayerKeyboardInput : MonoBehaviour, IPausable
+namespace Assets.Scripts.GameBehaviors
 {
-	[SerializeField] private CharacterController2D m_controller;
-
-	private bool jumpLocked = false;
-
-	private void FixedUpdate ()
+	public class PlayerKeyboardInput : MonoBehaviour, IPausable
 	{
-		if (!m_controller.IsAlive() || !enabled)
-			return;
+		[SerializeField] private CharacterController2D m_controller;
 
-		m_controller.WantMove(Input.GetAxisRaw("Horizontal") );
+		private bool jumpLocked = false;
 
-		if (Input.GetButtonDown("Jump"))
-            m_controller.WantJump();
-
-		if (Input.GetButtonDown("Fire1"))
-			m_controller.WantAttack();
-
-
-		if (Input.GetAxisRaw("Vertical") < 0)
-			m_controller.WantRoll();
-		else if (!jumpLocked)
+		private void FixedUpdate()
 		{
-			if (Input.GetAxisRaw("Vertical") > 0)
-			{
-				jumpLocked = true;
+			if (!m_controller.IsAlive() || !enabled)
+				return;
+
+			m_controller.WantMove(Input.GetAxisRaw("Horizontal"));
+
+			if (Input.GetButtonDown("Jump"))
 				m_controller.WantJump();
+
+			if (Input.GetButtonDown("Fire1"))
+				m_controller.WantAttack();
+
+			if (Input.GetAxisRaw("Vertical") < 0 || Input.GetButtonDown("Fire3"))
+				m_controller.WantRoll();
+			else if (Input.GetAxisRaw("Vertical") > 0)
+				m_controller.WantJump();
+
+			if (Input.GetKeyUp(KeyCode.Escape))
+			{
+				GameController.PauseGame();
 			}
 		}
-		else
-			jumpLocked = false;
 
-		if (Input.GetKeyUp(KeyCode.Escape))
+		public void OnPause(bool pause)
 		{
-			GameController.PauseGame();
+			enabled = !pause;
 		}
-	}
-
-	public void OnPause(bool pause)
-	{
-		enabled = !pause;
 	}
 }

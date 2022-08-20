@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Game
+namespace Assets.Scripts.GameMenu
 {
     public class GameMenuBase : MonoBehaviour
     {

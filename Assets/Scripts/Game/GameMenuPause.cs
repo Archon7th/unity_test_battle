@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Game
+namespace Assets.Scripts.GameMenu
 {
     public class GameMenuPause : GameMenuBase
     {

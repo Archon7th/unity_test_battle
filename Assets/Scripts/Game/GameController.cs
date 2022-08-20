@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using Assets.Scripts.GameBehaviors;
 
-namespace Assets.Scripts.Game
+namespace Assets.Scripts.GameMenu
 {
     public class GameController : MonoBehaviour
     {
         [SerializeField] private GameMenuBase m_pauseMenu;
         [SerializeField] private GameMenuBase m_deathMenu;
+        [SerializeField] private CharacterBase m_mainPlayer;
 
         private static GameController instance;
-
+        
         private void Awake()
         {
             Physics2D.IgnoreLayerCollision(8,8);
@@ -19,7 +20,18 @@ namespace Assets.Scripts.Game
         private void OnEnable()
         {
             instance = this;
+            if (m_mainPlayer != null)
+                m_mainPlayer.OnDeathEvent.AddListener(ShowDeathMenu);
         }
+
+        private void OnDisable()
+        {
+            if (m_mainPlayer != null)
+                m_mainPlayer.OnDeathEvent.RemoveListener(ShowDeathMenu);
+        }
+
+
+
 
         private static void PauseAll(bool pause)
         {
