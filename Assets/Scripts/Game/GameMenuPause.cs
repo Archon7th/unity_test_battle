@@ -6,18 +6,18 @@ namespace Assets.Scripts.Game
 {
     public class GameMenuPause : GameMenuBase
     {
-        [SerializeField] private Button resumeButton;
+        [SerializeField] private Button m_resumeButton;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            resumeButton.onClick.AddListener(OnResumeClick);
+            m_resumeButton.onClick.AddListener(OnResumeClick);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            resumeButton.onClick.RemoveListener(OnResumeClick);
+            m_resumeButton.onClick.RemoveListener(OnResumeClick);
         }
 
         private void OnResumeClick()
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Game
 
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (m_canvasGroup.alpha >= 1 && Input.GetKeyUp(KeyCode.Escape))
             {
                 OnResumeClick();
             }

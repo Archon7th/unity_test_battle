@@ -4,10 +4,8 @@ namespace Assets.Scripts.Game
 {
     public interface IDamageReciever
     {
-        int GetSide();
-        
-        bool AcceptDamage(IDamageDealer source);
+        bool AcceptDamageFrom(IDamageDealer source);
 
-        void DirectDamage(float damage);
+        void DirectDamage(float damage, Vector2 impulse);
     }
 }

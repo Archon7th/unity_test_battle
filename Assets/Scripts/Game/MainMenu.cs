@@ -6,20 +6,20 @@ namespace Assets.Scripts.Game
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private Button playButton;
-        [SerializeField] private Button exitButton;
+        [SerializeField] private Button m_playButton;
+        [SerializeField] private Button m_exitButton;
 
         private void OnEnable()
         {
-            playButton.onClick.AddListener(OnPlayClick);
-            exitButton.onClick.AddListener(OnExitClick);
+            m_playButton.onClick.AddListener(OnPlayClick);
+            m_exitButton.onClick.AddListener(OnExitClick);
         }
 
 
         private void OnDisable()
         {
-            playButton.onClick.RemoveListener(OnPlayClick);
-            exitButton.onClick.RemoveListener(OnExitClick);
+            m_playButton.onClick.RemoveListener(OnPlayClick);
+            m_exitButton.onClick.RemoveListener(OnExitClick);
         }
 
         private void OnPlayClick()

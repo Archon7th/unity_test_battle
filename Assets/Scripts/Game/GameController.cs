@@ -6,13 +6,14 @@ namespace Assets.Scripts.Game
 {
     public class GameController : MonoBehaviour
     {
-        [SerializeField] private GameMenuBase pauseMenu;
-        [SerializeField] private GameMenuBase deathMenu;
+        [SerializeField] private GameMenuBase m_pauseMenu;
+        [SerializeField] private GameMenuBase m_deathMenu;
 
         private static GameController instance;
 
         private void Awake()
         {
+            Physics2D.IgnoreLayerCollision(8,8);
         }
 
         private void OnEnable()
@@ -32,12 +33,20 @@ namespace Assets.Scripts.Game
             }
         }
 
+        public static void ShowDeathMenu()
+        {
+            if (instance)
+            {
+                instance.m_deathMenu.FadeIn();
+            }
+        }
+
         public static void PauseGame()
         {
             if (instance)
             {
-                instance.pauseMenu.FadeIn();
                 PauseAll(true);
+                instance.m_pauseMenu.FadeIn();
             }
         }
 
@@ -53,7 +62,6 @@ namespace Assets.Scripts.Game
         {
             SceneManager.LoadScene("Game", LoadSceneMode.Single);
         }
-
 
         public static void ExitGame()
         {

@@ -6,38 +6,38 @@ namespace Assets.Scripts.Game
 {
     public class GameMenuBase : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private Button exitButton;
+        [SerializeField] protected CanvasGroup m_canvasGroup;
+        [SerializeField] protected Button m_exitButton;
 
         private const float FADE_TIME = 0.5f;
         private float fadeStartTime = 0;
 
         protected virtual void OnEnable()
         {
-            exitButton.onClick.AddListener(OnExitClick);
+            m_exitButton.onClick.AddListener(OnExitClick);
         }
 
         protected virtual void OnDisable()
         {
-            exitButton.onClick.RemoveListener(OnExitClick);
+            m_exitButton.onClick.RemoveListener(OnExitClick);
         }
 
         public async void FadeIn()
         {
-            canvasGroup.gameObject.SetActive(true);
-            canvasGroup.alpha = 0;
+            m_canvasGroup.gameObject.SetActive(true);
+            m_canvasGroup.alpha = 0;
             fadeStartTime = Time.time;
-            while (canvasGroup.alpha < 1)
+            while (m_canvasGroup.alpha < 1)
             {
-                canvasGroup.alpha = (Time.time - fadeStartTime) / FADE_TIME;
+                m_canvasGroup.alpha = (Time.time - fadeStartTime) / FADE_TIME;
                 await Task.Delay(1);
             }
         }
 
         public void FadeOut()
         {
-            canvasGroup.alpha = 0;
-            canvasGroup.gameObject.SetActive(false);
+            m_canvasGroup.alpha = 0;
+            m_canvasGroup.gameObject.SetActive(false);
         }
 
         protected void OnExitClick()

@@ -6,18 +6,18 @@ namespace Assets.Scripts.Game
 {
     public class GameMenuDeath : GameMenuBase
     {
-        [SerializeField] private Button restartButton;
+        [SerializeField] private Button m_restartButton;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            restartButton.onClick.AddListener(OnReplayClick);
+            m_restartButton.onClick.AddListener(OnReplayClick);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            restartButton.onClick.RemoveListener(OnReplayClick);
+            m_restartButton.onClick.RemoveListener(OnReplayClick);
         }
 
         private void OnReplayClick()
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Game
 
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (m_canvasGroup.alpha >= 1 && Input.GetKeyUp(KeyCode.Escape))
             {
                 OnExitClick();
             }

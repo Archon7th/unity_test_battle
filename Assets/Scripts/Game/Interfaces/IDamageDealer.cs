@@ -4,7 +4,7 @@ namespace Assets.Scripts.Game
 {
     public interface IDamageDealer
     {
-        bool DealDamage(IDamageReciever target);
+        bool DealDamageTo(IDamageReciever target);
     }
 
 }
