@@ -6,7 +6,7 @@ namespace Assets.Scripts.GameBehaviors
     [System.Serializable]
     public class IDamageRecieverObject : InterfaceObject<IDamageReciever> {}
 
-    public class HitZone : MonoBehaviour, IDamageReciever, IPausable
+    public class HitZone : MonoBehaviour, IPausable
     {
         [SerializeField] private bool m_IsTrigger = true;
         [SerializeField] private bool m_IsCollider = false;
@@ -33,31 +33,6 @@ namespace Assets.Scripts.GameBehaviors
                 if (dealer != null && dealer.CanDamage() && reciever.AcceptDamageFrom(dealer))
                     dealer.DealDamageFromInto(dealer, reciever);
             }
-        }
-
-        public Vector2 GetDamagePositioin()
-        {
-            return DamageReciever.Get().GetDamagePositioin();
-        }
-
-        public int GetSideIndex()
-        {
-            return DamageReciever.Get().GetSideIndex();
-        }
-
-        public bool IsAlive()
-        {
-            return DamageReciever.Get().IsAlive();
-        }
-
-        public bool AcceptDamageFrom(IDamageDealer source)
-        {
-            return DamageReciever.Get().AcceptDamageFrom(source);
-        }
-
-        public void DirectDamage(float damage, Vector2 impulse)
-        {
-            DamageReciever.Get().DirectDamage(damage, impulse);
         }
 
         public void OnPause(bool pause)

@@ -125,6 +125,16 @@ namespace Assets.Scripts.GameBehaviors
 			}
 		}
 
+		private void OnDrawGizmos()
+		{
+			if (Selection.Contains(gameObject))
+			{
+				Handles.color = Color.yellow;
+				Handles.DrawWireDisc(transform.position, Vector3.back, m_GroundedRadius);
+			}
+		}
+
+
 		public void ReleaseJump()
 		{
 			if (!IsAlive())
@@ -160,15 +170,6 @@ namespace Assets.Scripts.GameBehaviors
 		public void WantAttack()
 		{
 			wantAttack = true;
-		}
-
-		private void OnDrawGizmos()
-		{
-			if (Selection.Contains(gameObject))
-			{
-				Handles.color = Color.yellow;
-				Handles.DrawWireDisc(transform.position, Vector3.back, m_GroundedRadius);
-			}
 		}
 	}
 }

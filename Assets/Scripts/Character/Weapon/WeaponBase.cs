@@ -52,7 +52,7 @@ namespace Assets.Scripts.GameBehaviors
 
         public bool CanDamage()
         {
-            return true;
+            return owner.CanDamage();
         }
 
         public bool DealDamageFromInto(IDamageDealer source, IDamageReciever target)

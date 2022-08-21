@@ -70,9 +70,9 @@ namespace Assets.Scripts.GameBehaviors
 		}
 		private void OnLanding()
 		{
+			currentAnimator.ResetTrigger(animAttackHash);
 			currentAnimator.ResetTrigger(animDamageHash);
 			currentAnimator.ResetTrigger(animRollHash);
-			currentAnimator.ResetTrigger(animAttackHash);
 			currentAnimator.SetTrigger(animLandingHash);
 		}
 

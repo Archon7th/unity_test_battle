@@ -11,10 +11,13 @@ namespace Assets.Scripts.GameBehaviors
 
         protected override void Attack()
         {
+            if (!CanDamage())
+                return;
+
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, m_ContactRadius, m_ContactLayerMask);
             for (int i = 0; i < colliders.Length; i++)
             {
-                IDamageReciever reciever = colliders[i].GetComponent<IDamageReciever>();
+                IDamageReciever reciever = colliders[i].GetComponentInParent<IDamageReciever>();
                 if (reciever != null)
                 {
                     if (reciever.AcceptDamageFrom(owner))

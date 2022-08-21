@@ -9,8 +9,6 @@ namespace Assets.Scripts.GameBehaviors
 	{
 		[SerializeField] private CharacterController2D m_controller;
 
-		private bool jumpLocked = false;
-
 		private void FixedUpdate()
 		{
 			PlayerCharacter player = PlayerCharacter.Instance;
@@ -23,15 +21,17 @@ namespace Assets.Scripts.GameBehaviors
 			{
 				if (!m_controller.IsAfterDamage)
 					m_controller.WantMove(Mathf.Sign(delata.x));
+				else
+					m_controller.WantMove(0);
 			}
-			else if (!m_controller.IsAttack && Mathf.Abs(delata.y) < 1f)
+			else if (!m_controller.IsAttack)
 			{
 				if (Random.Range(0, 1f) > 0.5f)
-					m_controller.WantMove(0);
-				else
 					m_controller.WantMove(Mathf.Sign(delata.x));
+				else
+					m_controller.WantMove(0);
 
-				if (!m_controller.IsAfterDamage)
+				if (!m_controller.IsAfterDamage && Mathf.Abs(delata.y) < 1f)
 					m_controller.WantAttack();
 			}
 			else

@@ -6,7 +6,7 @@ namespace Assets.Scripts.GameBehaviors
 {
 	
 
-	public class CharacterBase : MonoBehaviour, IDamageReciever, IDamageDealer, IItemUser, IPausable
+	public class CharacterBase : MonoBehaviour, IDamageReciever, IDamageDealer, IPausable
 	{
 		[SerializeField] protected WeaponBase m_Weapon;
 		[SerializeField] protected int m_SideIndex = 1;
@@ -35,13 +35,9 @@ namespace Assets.Scripts.GameBehaviors
 		protected Rigidbody2D currentRigidbody;
 
 
-		public CharacterBase()
-		{
-			Health = m_HealthMax;
-		}
-
 		private void Awake()
 		{
+			Health = m_HealthMax;
 			OnHealthEvent.Invoke(Health);
 			currentRigidbody = GetComponent<Rigidbody2D>();
 		}
@@ -66,9 +62,27 @@ namespace Assets.Scripts.GameBehaviors
 			}
 		}
 
-		public bool AcceptUse(IItemUsable item)
+		public bool CanRecieveHeal()
 		{
-			return true;
+			return (IsAlive() && Health < HealthMax);
+		}
+
+		public void Heal(float heal)
+		{
+			if (IsAlive())
+			{
+				Health += heal;
+				OnHealthEvent.Invoke(heal);
+				if (Health > HealthMax)
+					Health += HealthMax;
+			}
+		}
+
+		#region DAMAGE_INTERFACES
+
+		public virtual bool AcceptUseItem(IItemUsable item)
+		{
+			return false;
 		}
 
 		public int GetSideIndex()
@@ -86,9 +100,9 @@ namespace Assets.Scripts.GameBehaviors
 			return m_WeponPower;
 		}
 
-		public bool CanDamage()
+		public virtual bool CanDamage()
 		{
-			return (IsAlive() && !IsRolling && !IsAttack && !IsAfterDamage);
+			return IsAlive();
 		}
 
 		public bool AcceptDamageFrom(IDamageDealer source)
@@ -105,7 +119,7 @@ namespace Assets.Scripts.GameBehaviors
 		public void DirectDamage(float damage, Vector2 force)
 		{
 			OnDamageEvent.Invoke();
-			currentRigidbody.velocity += force;
+			currentRigidbody.velocity = Vector2.Lerp(currentRigidbody.velocity, force, 0.5f);
 			afterDamageTime = Time.time;
 			Damage(damage);
 		}
@@ -114,26 +128,28 @@ namespace Assets.Scripts.GameBehaviors
 		{
 			Vector2 delta = target.GetDamagePositioin() - GetDamagePositioin();
 			delta.x = Mathf.Sign(delta.x);
-			target.DirectDamage(source.GetDamage(), 6f * (delta.normalized + new Vector2(PrimaryDirection, 1).normalized));
+			delta.y = Mathf.Clamp(delta.x, -1, 1);
+			target.DirectDamage(source.GetDamage(), 10f * (delta.normalized + new Vector2(PrimaryDirection, 1).normalized));
 			if (!target.IsAlive())
             {
 				KillsTarget(target);
-				//target.KilledByDealer(this);
+				target.KilledByDealer(this);
 			}
 				
 			return true;
 		}
 
-		protected virtual void KillsTarget(IDamageReciever target)
+        protected virtual void KillsTarget(IDamageReciever target)
         {
 
         }
 		
-		protected virtual void KilledByDealer(IDamageDealer source)
+		public virtual void KilledByDealer(IDamageDealer source)
 		{
 
 		}
 
+		#endregion
 
 		public void OnPause(bool pause)
 		{
@@ -143,5 +159,5 @@ namespace Assets.Scripts.GameBehaviors
 			else
 				currentRigidbody.WakeUp();
 		}
-	}
+    }
 }

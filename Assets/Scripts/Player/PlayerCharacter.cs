@@ -14,6 +14,19 @@ namespace Assets.Scripts.GameBehaviors
 			Instance = this;
 		}
 
+		public override bool AcceptUseItem(IItemUsable item)
+		{
+			return IsAlive();
+		}
+
+		public override bool CanDamage()
+		{
+			if (IsRolling)
+				return false;
+
+			return base.CanDamage();
+		}
+
 		protected override void KillsTarget(IDamageReciever target)
 		{
 			if (target.GetSideIndex() != GetSideIndex())

@@ -7,8 +7,6 @@ namespace Assets.Scripts.GameBehaviors
 	{
 		[SerializeField] private CharacterController2D m_controller;
 
-		private bool jumpLocked = false;
-
 		private void FixedUpdate()
 		{
 			if (!m_controller.IsAlive() || !enabled)
