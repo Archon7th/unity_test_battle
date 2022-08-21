@@ -8,6 +8,8 @@ namespace Assets.Scripts.GameBehaviors
 
         int GetSideIndex();
 
+        bool IsAlive();
+
         bool AcceptDamageFrom(IDamageDealer source);
 
         void DirectDamage(float damage, Vector2 impulse);

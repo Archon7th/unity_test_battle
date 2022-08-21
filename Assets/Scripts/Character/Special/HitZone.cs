@@ -45,6 +45,11 @@ namespace Assets.Scripts.GameBehaviors
             return DamageReciever.Get().GetSideIndex();
         }
 
+        public bool IsAlive()
+        {
+            return DamageReciever.Get().IsAlive();
+        }
+
         public bool AcceptDamageFrom(IDamageDealer source)
         {
             return DamageReciever.Get().AcceptDamageFrom(source);
