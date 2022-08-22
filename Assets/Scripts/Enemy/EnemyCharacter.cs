@@ -7,6 +7,8 @@ namespace Assets.Scripts.GameBehaviors
 	{
 		[Header("Enemy")]
 		[SerializeField] private GameObject m_heart;
+		[SerializeField] private TargetBlinkTweak m_blinkTweak;
+		[SerializeField] private float m_spawnTimeout = 1;
 		[SerializeField] private float m_deadTimeout = 60;
 
 
@@ -20,7 +22,9 @@ namespace Assets.Scripts.GameBehaviors
 
 		public override void KilledByDealer(IDamageDealer source)
 		{
-			Invoke(nameof(SpawnLoot), 1);
+			Invoke(nameof(SpawnLoot), m_spawnTimeout);
+			if (m_blinkTweak)
+				m_blinkTweak.SetDelayTimeToEnd(m_deadTimeout);
 			Destroy(gameObject, m_deadTimeout);
 		}
 

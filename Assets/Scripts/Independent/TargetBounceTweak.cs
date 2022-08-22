@@ -11,13 +11,26 @@ public class TargetBounceTweak : MonoBehaviour, IPausable
     private float lifeTime;
 
     #region UNITY
+    private void Awake()
+    {
+        if (m_transform != null)
+        {
+            Vector3 pos = m_transform.localPosition;
+            pos.y = m_curve.Evaluate(0);
+            m_transform.localPosition = pos;
+        }
+
+    }
 
     private void Update()
     {
         lifeTime += Time.deltaTime;
-        Vector3 pos = m_transform.localPosition;
-        pos.y = m_curve.Evaluate((lifeTime % m_period) / m_period);
-        m_transform.localPosition = pos;
+        if (m_transform != null) {
+            Vector3 pos = m_transform.localPosition;
+            pos.y = m_curve.Evaluate((lifeTime % m_period) / m_period);
+            m_transform.localPosition = pos;
+        }
+        
     }
 
     #endregion
