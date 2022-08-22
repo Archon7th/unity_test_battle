@@ -9,6 +9,8 @@ namespace Assets.Scripts.GameBehaviors
 	{
 		[SerializeField] private CharacterController2D m_controller;
 
+		private float memoryMove = 0f;
+		public float memoryVelocity = 0f; 
 		private Waypoint waypoint;
 
 		private void FixedUpdate()
@@ -30,10 +32,8 @@ namespace Assets.Scripts.GameBehaviors
 					m_controller.WantMove(0);
 				else if (Mathf.Abs(playerDelta.x) < 1 && Mathf.Abs(playerDelta.y) < 1)
 				{
-					if (!m_controller.IsAfterDamage && !m_controller.IsAttack)
-					{
+					if (!m_controller.IsAttack)
 						m_controller.WantAttack();
-					}
 
 					if (m_controller.IsAttack)
 						m_controller.WantLook(Mathf.Sign(playerDelta.x));
@@ -43,7 +43,7 @@ namespace Assets.Scripts.GameBehaviors
 				else
 					m_controller.WantMove(Mathf.Sign(playerDelta.x));
 			}
-			else if (waypoint.StepsCount > 0)
+			else if(waypoint.StepsCount > 0)
 			{
 				if (m_controller.IsAfterDamage || m_controller.IsAttack)
 					m_controller.WantMove(0);
@@ -62,9 +62,13 @@ namespace Assets.Scripts.GameBehaviors
 				}
 			}
 			else
-            {
-
-            }
+			{
+				if (Mathf.Abs(memoryMove) > 0.1)
+					memoryMove = Mathf.SmoothDamp(memoryMove, 0, ref memoryVelocity, 2);
+				else
+					memoryMove = Mathf.Sign(playerDelta.x);
+				m_controller.WantMove(Mathf.Ceil(Mathf.Clamp(memoryMove, -1, 1)));
+			}
 		}
 
 		public void SetWaypoint(Waypoint waypoint)

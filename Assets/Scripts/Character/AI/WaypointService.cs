@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -27,6 +25,13 @@ namespace Assets.Scripts.GameBehaviors
             waypoint.Track(subPathes, 0, 0f);
             while (subPathes.Count > 0)
             {
+                for (int i = 0; i < subPathes.Count; i++)
+                {
+                    Waypoint temp = subPathes[i];
+                    int randomIndex = Random.Range(i, subPathes.Count);
+                    subPathes[i] = subPathes[randomIndex];
+                    subPathes[randomIndex] = temp;
+                }
                 List<Waypoint> newSubPathes = new List<Waypoint>();
                 foreach (Waypoint el in subPathes)
                 {

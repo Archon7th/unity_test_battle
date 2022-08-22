@@ -65,7 +65,7 @@ namespace Assets.Scripts.GameBehaviors
             StepsCount = -1;
         }
 
-
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (Selection.Contains(gameObject) || Selection.Contains(transform.parent.gameObject))
@@ -83,5 +83,6 @@ namespace Assets.Scripts.GameBehaviors
                         
             }
         }
+#endif
     }
 }

@@ -8,6 +8,7 @@ namespace Assets.Scripts.GameBehaviors
         [Header("Contact Setup")]
         [SerializeField] private LayerMask m_ContactLayerMask;
         [SerializeField] private float m_ContactRadius = .5f;
+        [SerializeField] private bool m_OneDamageReciever = true;
 
         protected override void Attack()
         {
@@ -23,12 +24,13 @@ namespace Assets.Scripts.GameBehaviors
                     if (reciever.AcceptDamageFrom(owner))
                     {
                         owner.DealDamageFromInto(this, reciever);
-                        break;
+                        if (m_OneDamageReciever)
+                            break;
                     }
                 }
             }
         }
-
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (Selection.Contains(gameObject) || Selection.Contains(transform.root.gameObject))
@@ -37,5 +39,6 @@ namespace Assets.Scripts.GameBehaviors
                 Handles.DrawWireDisc(transform.position, Vector3.back, m_ContactRadius);
             }
         }
+#endif
     }
 }

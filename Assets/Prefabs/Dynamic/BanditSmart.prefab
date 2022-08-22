@@ -497,3 +497,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   m_ContactRadius: 0.45
+  m_OneDamageReciever: 1
