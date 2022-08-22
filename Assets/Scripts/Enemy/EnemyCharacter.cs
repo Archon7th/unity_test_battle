@@ -28,6 +28,12 @@ namespace Assets.Scripts.GameBehaviors
 			Destroy(gameObject, m_deadTimeout);
 		}
 
+		public void SehHealthOnSpawn(float value)
+		{
+			m_HealthMax = value;
+			Health = value;
+		}
+
 		private void SpawnLoot()
 		{
 			if (m_heart)

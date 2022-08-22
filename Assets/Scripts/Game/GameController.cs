@@ -39,9 +39,17 @@ namespace Assets.Scripts.GameMenu
             foreach (var el in monoScripts)
             {
                 if (el is IPausable)
-                {
                     (el as IPausable).OnPause(pause);
-                }
+            }
+        }
+
+        private static void NotifyPlayerDeath(bool death)
+        {
+            MonoBehaviour[] monoScripts = (MonoBehaviour[])FindObjectsOfType(typeof(MonoBehaviour));
+            foreach (var el in monoScripts)
+            {
+                if (el is IWaitPlayerDeath)
+                    (el as IWaitPlayerDeath).OnPlayerDeath(death);
             }
         }
 
@@ -49,6 +57,7 @@ namespace Assets.Scripts.GameMenu
         {
             if (instance)
             {
+                NotifyPlayerDeath(true);
                 instance.m_deathMenu.FadeIn();
             }
         }

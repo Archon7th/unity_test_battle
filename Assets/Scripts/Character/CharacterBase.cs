@@ -38,6 +38,7 @@ namespace Assets.Scripts.GameBehaviors
 		private void Awake()
 		{
 			Health = m_HealthMax;
+			afterDamageTime = Time.time;
 			OnHealthEvent.Invoke(Health);
 			currentRigidbody = GetComponent<Rigidbody2D>();
 		}

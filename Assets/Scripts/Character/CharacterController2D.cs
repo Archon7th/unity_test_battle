@@ -134,7 +134,6 @@ namespace Assets.Scripts.GameBehaviors
 			}
 		}
 
-
 		public void ReleaseJump()
 		{
 			if (!IsAlive())

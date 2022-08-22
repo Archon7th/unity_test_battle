@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a46bfe18584ff34386a0e228d1396a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_IsCollider: 0
   DamageDealer:
     _object: {fileID: 3875547233430139384}
@@ -237,7 +237,7 @@ MonoBehaviour:
       m_Calls: []
   m_AirControl: 1
   m_OneJumpAllowed: 0
-  m_JumpForce: 6
+  m_JumpForce: 7
   m_RunSpeed: 3
   m_RollingSpeed: 5
   m_RollingDuration: 0.6
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_GroundLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  m_GroundedRadius: 0.2
+  m_GroundedRadius: 0.15
   OnLandingEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -263,7 +263,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_heart: {fileID: 9078694032415329385, guid: 6de0d508de07dfd4e970b365e9b0bf59, type: 3}
-  m_blinkTweak: {fileID: 0}
+  m_blinkTweak: {fileID: 1824892973}
   m_spawnTimeout: 1
   m_deadTimeout: 60
 --- !u!50 &3875547233430139382

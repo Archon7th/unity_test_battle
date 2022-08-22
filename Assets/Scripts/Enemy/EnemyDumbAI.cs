@@ -21,18 +21,22 @@ namespace Assets.Scripts.GameBehaviors
 			{
 				if (!m_controller.IsAfterDamage)
 					m_controller.WantMove(Mathf.Sign(delata.x));
-				else
+				else if (delata.y > -1)
 					m_controller.WantMove(0);
 			}
 			else if (!m_controller.IsAttack)
 			{
-				if (Random.Range(0, 1f) > 0.5f)
-					m_controller.WantMove(Mathf.Sign(delata.x));
-				else
-					m_controller.WantMove(0);
+				bool stop = (Random.Range(0, 1f) > 0.5f);
+				if (!m_controller.IsAfterDamage)
+					if (Mathf.Abs(delata.y) < 1f)
+						m_controller.WantAttack();
+					else
+						stop = false;
 
-				if (!m_controller.IsAfterDamage && Mathf.Abs(delata.y) < 1f)
-					m_controller.WantAttack();
+				if (stop)
+					m_controller.WantMove(0);
+				else
+					m_controller.WantMove(Mathf.Sign(delata.x));
 			}
 			else
 			{
