@@ -4,8 +4,6 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.GameBehaviors
 {
-	
-
 	public class CharacterBase : MonoBehaviour, IDamageReciever, IDamageDealer, IPausable
 	{
 		[SerializeField] protected WeaponBase m_Weapon;
@@ -30,17 +28,13 @@ namespace Assets.Scripts.GameBehaviors
 		public UnityEvent OnDamageEvent = new UnityEvent();
 		public UnityEvent<float> OnHealthEvent = new UnityFloatEvent();
 
-
 		protected float afterDamageTime;
-		protected Rigidbody2D currentRigidbody;
 
-
-		private void Awake()
+		protected virtual void Awake()
 		{
 			Health = m_HealthMax;
 			afterDamageTime = Time.time;
 			OnHealthEvent.Invoke(Health);
-			currentRigidbody = GetComponent<Rigidbody2D>();
 		}
 
 		public bool IsAlive()
@@ -57,7 +51,6 @@ namespace Assets.Scripts.GameBehaviors
 				if (!IsAlive())
 				{
 					OnDeathEvent.Invoke();
-					currentRigidbody.velocity = new Vector2(0, currentRigidbody.velocity.y);
 					enabled = false;
 				}
 			}
@@ -117,10 +110,9 @@ namespace Assets.Scripts.GameBehaviors
 			return true;
 		}
 
-		public void DirectDamage(float damage, Vector2 force)
+		public virtual void DirectDamage(float damage, Vector2 force)
 		{
 			OnDamageEvent.Invoke();
-			currentRigidbody.velocity = Vector2.Lerp(currentRigidbody.velocity, force, 0.5f);
 			afterDamageTime = Time.time;
 			Damage(damage);
 		}
@@ -152,13 +144,9 @@ namespace Assets.Scripts.GameBehaviors
 
 		#endregion
 
-		public void OnPause(bool pause)
+		public virtual void OnPause(bool pause)
 		{
 			enabled = !pause;
-			if (pause)
-				currentRigidbody.Sleep();
-			else
-				currentRigidbody.WakeUp();
 		}
     }
 }
