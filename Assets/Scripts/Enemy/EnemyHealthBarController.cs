@@ -23,10 +23,13 @@ namespace Assets.Scripts.GameBehaviors
 
         public void Register(CharacterBase enemy)
         {
-            enemies.Add(enemy);
-            EnemyHealthBar healthBar = Instantiate<EnemyHealthBar>(m_healthBarPrefab, transform);
-            healthBar.Initialize(this, enemy);
-            healthBars.Add(healthBar);
+            if (!enemies.Contains(enemy))
+            {
+                enemies.Add(enemy);
+                EnemyHealthBar healthBar = Instantiate<EnemyHealthBar>(m_healthBarPrefab, transform);
+                healthBar.Initialize(this, enemy);
+                healthBars.Add(healthBar);
+            }
         }
 
         public void Unregister(CharacterBase enemy, EnemyHealthBar healthBar)

@@ -48,6 +48,7 @@ namespace Assets.Scripts.GameBehaviors
             }
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (Selection.Contains(gameObject))
@@ -59,6 +60,7 @@ namespace Assets.Scripts.GameBehaviors
                 }
             }
         }
+#endif
 
         public void OnPause(bool pause)
         {

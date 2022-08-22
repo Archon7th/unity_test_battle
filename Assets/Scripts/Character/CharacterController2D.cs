@@ -133,7 +133,7 @@ namespace Assets.Scripts.GameBehaviors
 				IsRolling = false;
 			}
 		}
-
+#if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
 			if (Selection.Contains(gameObject))
@@ -142,10 +142,11 @@ namespace Assets.Scripts.GameBehaviors
 				Handles.DrawWireDisc(transform.position, Vector3.back, m_GroundedRadius);
 			}
 		}
+#endif
 
-        #endregion
+#endregion
 
-        public void ReleaseJump()
+		public void ReleaseJump()
 		{
 			if (!IsAlive())
 				return;
