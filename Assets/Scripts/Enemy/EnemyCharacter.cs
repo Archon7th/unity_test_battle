@@ -10,6 +10,11 @@ namespace Assets.Scripts.GameBehaviors
 		[SerializeField] private TargetBlinkTweak m_blinkTweak;
 		[SerializeField] private float m_spawnTimeout = 1;
 		[SerializeField] private float m_deadTimeout = 60;
+		protected override void Awake()
+		{
+			base.Awake();
+			EnemyHealthBarController.Instance.Register(this);
+		}
 
 		public override bool CanDamage()
 		{
