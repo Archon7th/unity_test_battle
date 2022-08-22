@@ -11,7 +11,6 @@ namespace Assets.Scripts.GameBehaviors
 		[SerializeField] private float m_spawnTimeout = 1;
 		[SerializeField] private float m_deadTimeout = 60;
 
-
 		public override bool CanDamage()
 		{
 			if (IsAfterDamage)

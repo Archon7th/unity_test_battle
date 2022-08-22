@@ -33,6 +33,7 @@ namespace Assets.Scripts.GameBehaviors
 		private bool wantAttack;
 		private float rollingTime;
 
+		protected Rigidbody2D currentRigidbody;
 		private Vector2 currentVelocity = Vector3.zero;
 
 		[Header("Events")]
@@ -40,6 +41,14 @@ namespace Assets.Scripts.GameBehaviors
 		public UnityEvent OnJumpEvent = new UnityEvent();
 		public UnityEvent OnRollingEvent = new UnityEvent();
 		public UnityEvent OnAttackEvent = new UnityEvent();
+
+        #region UNITY
+
+        protected override void Awake()
+		{
+			base.Awake();
+			currentRigidbody = GetComponent<Rigidbody2D>();
+		}
 
 		private void FixedUpdate()
 		{
@@ -134,7 +143,9 @@ namespace Assets.Scripts.GameBehaviors
 			}
 		}
 
-		public void ReleaseJump()
+        #endregion
+
+        public void ReleaseJump()
 		{
 			if (!IsAlive())
 				return;
@@ -169,6 +180,23 @@ namespace Assets.Scripts.GameBehaviors
 		public void WantAttack()
 		{
 			wantAttack = true;
+		}
+
+		public override void DirectDamage(float damage, Vector2 force)
+		{
+			base.DirectDamage(damage, force);
+			if (IsAlive())
+				currentRigidbody.velocity = Vector2.Lerp(currentRigidbody.velocity, force, 0.5f);
+            else
+				currentRigidbody.velocity = new Vector2(0, currentRigidbody.velocity.y);
+		}
+
+		public override void OnPause(bool pause)
+		{
+			if (pause)
+				currentRigidbody.Sleep();
+			else
+				currentRigidbody.WakeUp();
 		}
 	}
 }
