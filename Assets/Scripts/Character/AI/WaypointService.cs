@@ -19,11 +19,23 @@ namespace Assets.Scripts.GameBehaviors
 
         public void PlayerTouch(Waypoint waypoint)
         {
-            print($"PlayerTouch {waypoint}");
+            // print($"PlayerTouch {waypoint}");
             foreach (Waypoint el in waypoints)
-                waypoint.Reset();
+                el.Reset();
 
-            waypoint.Track(0);
+            List<Waypoint> subPathes = new List<Waypoint>();
+            waypoint.Track(subPathes, 0, 0f);
+            while (subPathes.Count > 0)
+            {
+                List<Waypoint> newSubPathes = new List<Waypoint>();
+                foreach (Waypoint el in subPathes)
+                {
+                    el.Track(newSubPathes, el.StepsCount, el.StepsLength);
+
+                }
+                subPathes = newSubPathes;
+            }
+            
         }
 
         public void Register(Waypoint waypoint)

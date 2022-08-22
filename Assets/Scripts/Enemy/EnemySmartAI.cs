@@ -15,10 +15,8 @@ namespace Assets.Scripts.GameBehaviors
 		{
 			PlayerCharacter player = PlayerCharacter.Instance;
 
-			if (waypoint == null) {
+			if (waypoint == null)
 				waypoint = WaypointService.Instance.GetClosestWaypoint(transform.position);
-				print("waypoint " + waypoint);
-			}
 
 			if (!m_controller.IsAlive() || !enabled || player == null || waypoint == null)
 				return;
@@ -26,6 +24,47 @@ namespace Assets.Scripts.GameBehaviors
 			Vector2 playerDelta = (player.transform.position - transform.position);
 			Vector2 waypointDelta = (waypoint.transform.position - transform.position);
 
+			if (Mathf.Abs(playerDelta.x) < 5f && playerDelta.y > -0.5f && playerDelta.y < 1f)
+			{
+				if (m_controller.IsAfterDamage)
+					m_controller.WantMove(0);
+				else if (Mathf.Abs(playerDelta.x) < 1 && Mathf.Abs(playerDelta.y) < 1)
+				{
+					if (!m_controller.IsAfterDamage && !m_controller.IsAttack)
+					{
+						m_controller.WantAttack();
+					}
+
+					if (m_controller.IsAttack)
+						m_controller.WantLook(Mathf.Sign(playerDelta.x));
+					else
+						m_controller.WantMove(Mathf.Sign(playerDelta.x));
+				}
+				else
+					m_controller.WantMove(Mathf.Sign(playerDelta.x));
+			}
+			else if (waypoint.StepsCount > 0)
+			{
+				if (m_controller.IsAfterDamage || m_controller.IsAttack)
+					m_controller.WantMove(0);
+				else if (waypointDelta.y > 1f)
+				{
+					m_controller.WantMove(Mathf.Sign(waypointDelta.x));
+					if (m_controller.IsGrounded)
+						m_controller.WantJump();
+				}
+				else if (Mathf.Abs(waypointDelta.x) > 0.25f)
+					m_controller.WantMove(Mathf.Sign(waypointDelta.x));
+				else
+				{
+					waypoint = waypoint.GetNextWaypoint();
+					// print($"waypoint {waypoint} {waypoint.StepsCount} {Mathf.Abs(waypointDelta.x)}");
+				}
+			}
+			else
+            {
+
+            }
 		}
 
 		public void SetWaypoint(Waypoint waypoint)
