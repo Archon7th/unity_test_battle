@@ -20,8 +20,14 @@ namespace Assets.Scripts.GameBehaviors
 
 		public override void KilledByDealer(IDamageDealer source)
 		{
-			Instantiate(m_heart, transform.position, Quaternion.identity);
+			Invoke(nameof(SpawnLoot), 1);
 			Destroy(gameObject, m_deadTimeout);
+		}
+
+		private void SpawnLoot()
+		{
+			if (m_heart)
+				Instantiate(m_heart, transform.position, Quaternion.identity);
 		}
 	}
 }
