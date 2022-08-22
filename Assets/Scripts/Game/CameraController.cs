@@ -8,7 +8,7 @@ namespace Assets.Scripts.GameMenu
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private CharacterBase m_mainPlayer;
-        [SerializeField] private float m_widthTreshold = 9f;
+        [SerializeField][Min(float.Epsilon)] private float m_widthTreshold = 9f;
         [SerializeField] private AnimationCurve m_vieportFactor = AnimationCurve.Linear(0, 1, 1, 1);
         private Camera currentCamera;
 
@@ -17,12 +17,15 @@ namespace Assets.Scripts.GameMenu
             currentCamera = GetComponent<Camera>();
         }
 
+        public float playerX;
+        public float cameraW;
+
         private void Update()
         {
             if (m_mainPlayer != null)
             {
-                float playerX = m_vieportFactor.Evaluate(currentCamera.WorldToViewportPoint(m_mainPlayer.transform.position).x);
-                float cameraW = currentCamera.ViewportToWorldPoint(new Vector3(1,1,10)).x - transform.position.x;
+                playerX = m_vieportFactor.Evaluate((m_mainPlayer.transform.position.x + m_widthTreshold) / (2 * m_widthTreshold));
+                cameraW = currentCamera.ViewportToWorldPoint(new Vector3(1,1,10)).x - transform.position.x;
 
                 if (m_widthTreshold > cameraW)
                 {

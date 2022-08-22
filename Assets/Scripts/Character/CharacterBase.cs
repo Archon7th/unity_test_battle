@@ -104,9 +104,7 @@ namespace Assets.Scripts.GameBehaviors
 			if (Equals(source) || !IsAlive() || GetSideIndex() == source.GetSideIndex() || IsRolling || IsAfterDamage)
 				return false;
 
-			//Damage(source.GetDamage());
-
-			print($"CharacterBase {name} AcceptDamage {source}");
+			//print($"CharacterBase {name} AcceptDamage {source}");
 			return true;
 		}
 
